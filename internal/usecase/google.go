@@ -1,0 +1,52 @@
+package usecase
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+
+	"github.com/Siddheshk02/go-oauth2/internal/config"
+	"github.com/Siddheshk02/go-oauth2/internal/entity"
+)
+
+type googleService struct {
+	cfg  *config.Config
+	repo UserRepo
+}
+
+func New(cfg *config.Config, repo UserRepo) *googleService {
+	return &googleService{
+		cfg:  cfg,
+		repo: repo,
+	}
+}
+
+func (g *googleService) GoogleLogin(code string) (string, error) {
+	token, err := g.cfg.GoogleLoginConfig.Exchange(context.Background(), code)
+	if err != nil {
+		return "", fmt.Errorf("failed exchange token code: %w", err)
+	}
+
+	resp, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
+	if err != nil {
+		return "", fmt.Errorf("failed user data fetch: %w", err)
+	}
+	dataUser, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse userData: %w", err)
+	}
+
+	var fetchApiUser entity.User
+
+	if err := json.Unmarshal(dataUser, &fetchApiUser); err != nil {
+		return "", fmt.Errorf("failed to parse fetchData into struct: %w", err)
+	}
+
+	if err := g.repo.InsertDataUser(fetchApiUser); err != nil {
+		return "", err
+	}
+
+	return g.cfg.GoogleLoginConfig.AuthCodeURL("misalkan"), nil
+}
