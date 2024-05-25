@@ -11,4 +11,12 @@ type (
 		GoogleLogin(code string) (string, error)
 		GoogleLogins() string
 	}
+
+	PokemonRepo interface {
+		InsertPoke(pokeData entity.Pokemon) error
+	}
+
+	PokemonService interface {
+		FetchPokemon() ([]entity.Pokemon, error)
+	}
 )

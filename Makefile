@@ -5,7 +5,7 @@ export
 # PATH:=$(LOCAL_BIN):$(PATH)
 
 migrate-create:  ### create new migration
-	migrate create -ext sql -dir migrations 'users'
+	migrate create -ext sql -dir migrations 'pokemon'
 .PHONY: migrate-create
 
 run: 

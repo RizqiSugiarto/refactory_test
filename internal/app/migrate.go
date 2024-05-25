@@ -20,7 +20,7 @@ func RunMigrate(url string) {
 		log.Fatal("app - runMigrate", err)
 	}
 
-	if err := m.Up(); err != nil {
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
 		log.Fatal("app - runMigrate", err)
 	}
 }

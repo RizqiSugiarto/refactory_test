@@ -21,7 +21,10 @@ func Run() {
 		log.Fatalf("db connection error: %s", err)
 	}
 	repo := repository.New(pg)
+	pokeRepo := repository.NewPokeRepo(pg)
 	uc := usecase.New(cfg, repo)
+	pokeUc := usecase.NewPokemon(pokeRepo)
 	controllers.New(uc, app)
+	controllers.NewPoke(pokeUc, app)
 	app.Listen(":8080")
 }
