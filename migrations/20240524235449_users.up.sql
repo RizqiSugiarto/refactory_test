@@ -1,10 +1,10 @@
-CREATE TABLE users(
-    Id VARCHAR(50),
-    Email VARCHAR(50),
-    Verified_email VARCHAR(50),
-    Name VARCHAR(50),
-    Given_name VARCHAR(50),
-    Family_picture VARCHAR(50),
-    Picture VARCHAR(50),
+CREATE TABLE users (
+    Id VARCHAR(255),
+    Email VARCHAR(320),
+    Verified_email VARCHAR(320),
+    Name VARCHAR(255),
+    Given_name VARCHAR(255),
+    Family_picture VARCHAR(255),
+    Picture VARCHAR(255),
     Locale VARCHAR(50)
 );

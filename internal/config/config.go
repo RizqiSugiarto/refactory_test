@@ -32,7 +32,7 @@ func LoadConfig() *Config {
 		Endpoint: google.Endpoint,
 	}
 
-	AppConfig.UrlPostgresDb = os.Getenv("PG_URL")
+	AppConfig.UrlPostgresDb = os.Getenv("DATABASE_URL")
 
 	return &AppConfig
 }

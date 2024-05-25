@@ -47,6 +47,9 @@ func (g *googleService) GoogleLogin(code string) (string, error) {
 	if err := g.repo.InsertDataUser(fetchApiUser); err != nil {
 		return "", err
 	}
+	return string(dataUser), nil
+}
 
-	return g.cfg.GoogleLoginConfig.AuthCodeURL("misalkan"), nil
+func (g *googleService) GoogleLogins() string {
+	return g.cfg.GoogleLoginConfig.AuthCodeURL("MISALKAN")
 }

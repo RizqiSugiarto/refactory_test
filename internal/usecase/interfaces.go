@@ -9,5 +9,6 @@ type (
 
 	UserService interface {
 		GoogleLogin(code string) (string, error)
+		GoogleLogins() string
 	}
 )
