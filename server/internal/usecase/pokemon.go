@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/Siddheshk02/go-oauth2/internal/entity"
@@ -44,16 +45,34 @@ func (p *PokemonUseCase) FetchPokemon() ([]entity.Pokemon, error) {
 		return []entity.Pokemon{}, fmt.Errorf("failed parse resp: %w", err)
 	}
 
-	// fmt.Println(respMap, "GINI")
+	var cobak []entity.Pokemon
+	data, _ := json.Marshal(respMap.Result)
 
-	for _, poke := range respMap.Result {
-		err := p.repo.InsertPoke(poke)
+	if err := json.Unmarshal(data, &cobak); err != nil {
+		return []entity.Pokemon{}, fmt.Errorf("failed parse resp: %w", err)
+	}
 
+	for i, pokeDet := range cobak {
+
+		resps, _ := http.Get(pokeDet.Url)
+
+		body, err := io.ReadAll(resps.Body)
 		if err != nil {
-			if err := p.repo.InsertPoke(poke); err != nil {
-				return nil, fmt.Errorf("error inserting pokemon: %w", err)
-			}
+			log.Fatalf("Error reading response body: %v", err)
 		}
+
+		var datas map[string]interface{}
+		if err := json.Unmarshal(body, &datas); err != nil {
+			log.Fatalf("Error parsing JSON: %v", err)
+		}
+
+		pokeDet.Url = datas["sprites"].(map[string]interface{})["front_default"].(string)
+
+		if err := p.repo.InsertPoke(pokeDet); err != nil {
+			return nil, fmt.Errorf("error inserting pokemon: %w", err)
+		}
+		respMap.Result[i].Url = pokeDet.Url
+
 	}
 
 	return respMap.Result, nil

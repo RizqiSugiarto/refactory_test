@@ -9,10 +9,12 @@ import (
 	"github.com/Siddheshk02/go-oauth2/internal/usecase/repository"
 	"github.com/Siddheshk02/go-oauth2/pkg/db"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func Run() {
 	app := fiber.New()
+	app.Use(cors.New())
 
 	cfg := config.LoadConfig()
 	RunMigrate(cfg.UrlPostgresDb)
