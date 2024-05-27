@@ -1,4 +1,4 @@
-module github.com/Siddheshk02/go-oauth2
+module github.com/MiniProject/go-oauth2
 
 go 1.19
 

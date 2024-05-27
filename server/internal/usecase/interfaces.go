@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/Siddheshk02/go-oauth2/internal/entity"
+import "github.com/MiniProject/go-oauth2/internal/entity"
 
 type (
 	UserRepo interface {

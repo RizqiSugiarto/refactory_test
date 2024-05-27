@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/Siddheshk02/go-oauth2/internal/usecase"
+	"github.com/MiniProject/go-oauth2/internal/usecase"
 	"github.com/gofiber/fiber/v2"
 )
 

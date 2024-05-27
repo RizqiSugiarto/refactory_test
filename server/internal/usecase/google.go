@@ -7,8 +7,8 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/Siddheshk02/go-oauth2/internal/config"
-	"github.com/Siddheshk02/go-oauth2/internal/entity"
+	"github.com/MiniProject/go-oauth2/internal/config"
+	"github.com/MiniProject/go-oauth2/internal/entity"
 )
 
 type googleService struct {
@@ -29,7 +29,7 @@ func (g *googleService) GoogleLogin(code string) (string, error) {
 		return "", fmt.Errorf("failed exchange token code: %w", err)
 	}
 
-	resp, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
+	resp, err := http.Get(g.cfg.GoogleUserInfoToken + token.AccessToken)
 	if err != nil {
 		return "", fmt.Errorf("failed user data fetch: %w", err)
 	}
@@ -51,5 +51,5 @@ func (g *googleService) GoogleLogin(code string) (string, error) {
 }
 
 func (g *googleService) GoogleLogins() string {
-	return g.cfg.GoogleLoginConfig.AuthCodeURL("MISALKAN")
+	return g.cfg.GoogleLoginConfig.AuthCodeURL(g.cfg.AuthCodeUrl)
 }

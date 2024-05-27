@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Siddheshk02/go-oauth2/internal/entity"
+	"github.com/MiniProject/go-oauth2/internal/entity"
 )
 
 type PokemonUseCase struct {
@@ -45,14 +45,14 @@ func (p *PokemonUseCase) FetchPokemon() ([]entity.Pokemon, error) {
 		return []entity.Pokemon{}, fmt.Errorf("failed parse resp: %w", err)
 	}
 
-	var cobak []entity.Pokemon
+	var onlyPoke []entity.Pokemon
 	data, _ := json.Marshal(respMap.Result)
 
-	if err := json.Unmarshal(data, &cobak); err != nil {
+	if err := json.Unmarshal(data, &onlyPoke); err != nil {
 		return []entity.Pokemon{}, fmt.Errorf("failed parse resp: %w", err)
 	}
 
-	for i, pokeDet := range cobak {
+	for i, pokeDet := range onlyPoke {
 
 		resps, _ := http.Get(pokeDet.Url)
 

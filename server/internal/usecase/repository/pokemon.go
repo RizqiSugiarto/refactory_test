@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/Siddheshk02/go-oauth2/internal/entity"
+	"github.com/MiniProject/go-oauth2/internal/entity"
 )
 
 type Pokemon struct {

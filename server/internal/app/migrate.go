@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/golang-migrate/migrate/v4"
@@ -10,8 +9,6 @@ import (
 )
 
 func RunMigrate(url string) {
-	// url += "?sslmode=disable"
-	fmt.Println(url)
 	m, err := migrate.New(
 		"file://migrations",
 		url)
